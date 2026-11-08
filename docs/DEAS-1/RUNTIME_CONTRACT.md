@@ -99,7 +99,6 @@ export interface DeasExecutionResponse {
   provenance: {
     executor_id: string;
     system_id: string;
-    certified_isolation_tier: DeasIsolationTier;
     executed_at: string;
   };
 }
@@ -115,5 +114,17 @@ export interface IDeasExecutor {
 
 ---
 
-## 3. Lifecycle State Machine
-`UNINITIALIZED` $\to$ `HEALTHY` $\iff$ `BUSY` $\to$ `FAULTED` / `TIMEOUT` $\to$ `TERMINATED`.
+## 3. Lifecycle & State Management
+External executor interaction involves three distinct state models:
+
+### 3.1 Executor States
+`UNINITIALIZED` $\to$ `HEALTHY` $\iff$ `BUSY` (processing active task) $\to$ `FAULTED` $\to$ `TERMINATED`.
+
+### 3.2 Task States
+`QUEUED` $\to$ `STARTING` $\to$ `RUNNING` $\to$ (`COMPLETED` | `FAILED` | `TIMED_OUT` | `CANCELLED` | `FAULTED`).
+- **Terminal States:** `COMPLETED`, `FAILED`, `TIMED_OUT`, `CANCELLED`, `FAULTED` are final states.
+- **Cancellation:** `cancelTask()` may be called in `STARTING` or `RUNNING` states, transitioning Task to `CANCELLED`.
+
+### 3.3 Session States
+`SESSION_OPEN` $\to$ `SESSION_BUSY` $\to$ `SESSION_CLOSED` $\to$ `SESSION_EXPIRED`.
+- Persistence of session state is managed by the external executor, and session lifecycle is independent of individual Task requests.

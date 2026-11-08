@@ -6,14 +6,22 @@
 
 ---
 
-## 1. Executive Summary & Strategic Vision
+## 1. Executive Summary
+The **Universal Software Capability Architecture (USCA-1.0)** is a general architectural framework for defining software systems, executors, capabilities, adapters, and governance mechanisms. It provides a standardized language for interoperability across heterogeneous software environments.
 
-The **Deterministic Processing & Control Orchestrator (DPCO)** evolves from a specialized arithmetic/geometry orchestrator into a **Universal Software Capability Orchestrator**. 
+## 2. Product Identity: DPCO
+**Deterministic Processing & Control Orchestrator (DPCO)** is a specialized Agent Support Middleware implementing selected USCA-1.0 principles. 
 
-DPCO does not perform specialized computations itself. Instead, it serves as the authoritative governor, dispatcher, and verifier for a heterogeneous ecosystem of external software tools, computational engines, CAD environments, document processors, and AI agents.
+DPCO is **NOT** a universal software orchestrator. Its scope is strictly bounded to:
+- arithmetic;
+- algebra;
+- mathematical computation;
+- 2D/3D geometry;
+- geometric construction;
+- related mathematical and geometric engineering operations.
 
-### The Core Architectural Tenet
-> **"Any program, software system, computational engine, or AI agent can become a DPCO executor if and only if its capabilities are explicitly declared via a standard passport, executed through a standardized adapter, governed by strict admission policies, and audited through independent verification."**
+DPCO provides an orchestration layer between AI Agents (which reason and plan) and specialized External Executors (which perform deterministic computation).
+
 
 ---
 

@@ -11,11 +11,25 @@ External executors declare their capabilities using structured descriptors:
 - **Precision:** Numerical tolerances ($\varepsilon$) and significant digit bounds.
 
 ## 3. Qualification Tiers & Internal Mapping
-DPCO recognizes two levels of qualification terminology:
-1. **Evidence Registry / Architectural Tiers (`docs/CAPABILITY_MODEL.md`):** `DECLARED`, `INSPECTED`, `TESTED`, `INSTANCE_VERIFIED`, `DOMAIN_VERIFIED`.
-2. **Core Registry Types (`src/core/registry.ts`):** Internal runtime validation handles baseline capability registration and state checks. 
+DPCO separates high-level architectural qualification from operational runtime registry types.
 
-*Mapping Note:* An `INSTANCE_VERIFIED` result confirms a specific execution output via independent verifier back-substitution, but does not grant blanket `DOMAIN_VERIFIED` status for all possible inputs across the domain.
+### Evidence Maturity (Architectural Tiers)
+- `DECLARED`: Executor passport claim.
+- `INSPECTED`: Static analysis/schema audit.
+- `TESTED`: Functional test matrix pass.
+- `INSTANCE_VERIFIED`: Result confirmed via independent verifier.
+- `DOMAIN_VERIFIED`: Formally proven or rigorously validated across domain.
+
+### Operational Registry Mapping (`src/core/registry.ts`)
+| Conceptual Tier | Runtime Enum / Type | Note |
+| :--- | :--- | :--- |
+| `DECLARED` | `REGISTRATION_PASSED` | Capability manifest valid. |
+| `TESTED` | `TEST_SUITE_PASSED` | Functional matrix pass. |
+| `INSTANCE_VERIFIED` | `VERIFIED` | Specific output audit success. |
+| `DOMAIN_VERIFIED` | `N/A` | Conceptual only; no runtime enum equivalence. |
+
+*Crucial Distinction:* `INSTANCE_VERIFIED` provides high confidence for a specific task output via independent verifier back-substitution, but it does **not** promote the executor to `DOMAIN_VERIFIED` status for all possible future inputs. Each capability must be qualified separately.
+
 
 ## 4. Admission Control & R-Levels
 - **Fail-Closed Default:** Unvetted executors default to `UNCLASSIFIED` role and are blocked from production dispatch.

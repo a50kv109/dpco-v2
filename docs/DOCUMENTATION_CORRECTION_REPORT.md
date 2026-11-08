@@ -1,12 +1,12 @@
-# DPCO v2 — Documentation Correction Report (Correction Pass 2)
+# DPCO v2 — Documentation Correction Report (Correction Pass 3)
 
-## 1. Summary of Correction Pass 2 Executed
-1. **Full Specifications Created:** Expanded stub files `docs/USCA/USCA-1.0.md`, `docs/CSP/CSP-0.2.md`, `docs/DEAS-1/README.md`, `docs/DEAS-1/TRANSPORT_PROFILES.md`, `docs/DEAS-1/ERROR_MODEL.md`, and `docs/DEAS-1/CONFORMANCE_TESTS.md` into comprehensive architectural and DEAS-1 specification documents.
-2. **Version Baseline Consistency:** Updated `docs/STATUS.md` from Baseline 0.3 to Public Architecture Baseline 2.0, perfectly aligning with `README.md` and `CHANGELOG.md`.
-3. **Security Refinement (`docs/SECURITY.md`):** Replaced naive string prefix checks with rigorous requirements for canonical path resolution (`fs.realpathSync`), symlink protection, and TOCTOU defense.
-4. **Qualification Mapping (`docs/CAPABILITY_MODEL.md`):** Clarified the mapping between evidence tiers and core registry types, ensuring `INSTANCE_VERIFIED` is strictly distinguished from domain-wide qualification.
-5. **Test Matrix Synchronization:** Updated `scripts/run_all_tests.ts` banner count from 20 to 25 to accurately reflect the Revision 4 test suite count (total 54 tests).
-6. **Legacy PoC Unpacking:** Fully unpacked historical Python PoC v0.1 source code, tests (`tests.py`), generate scripts, and JSONL ledgers into `legacy/dpco-poc-v0.1/dpco-main/`.
+## 1. Summary of Corrections Executed
+1. **USCA/DPCO Boundary:** Decoupled DPCO product identity from USCA-1.0 architectural framework; DPCO remains a specialized mathematical/geometric middleware.
+2. **Security Specification:** Enhanced `/docs/SECURITY.md` and `/docs/DEAS-1/SECURITY_AND_ARTIFACTS.md` with strict canonical path resolution, symlink protection, and TOCTOU defense requirements.
+3. **Async Runtime Contract (`docs/DEAS-1/RUNTIME_CONTRACT.md`):** Corrected lifecycle model, separated executor/task/session states, and removed adapter-declared isolation levels.
+4. **CSP Passport:** Corrected example to clearly distinguish `declared_role` from `AdmissionGrant` policy.
+5. **Qualification Mapping:** Added explicit terminology mapping between architectural evidence tiers and internal runtime registry enums in `docs/CAPABILITY_MODEL.md`.
+6. **Legacy PoC Integration:** Unpacked historical Python PoC v0.1 source code, tests (`tests.py`), generate scripts, and JSONL ledgers into `legacy/dpco-poc-v0.1/dpco-main/`.
 
 ---
 

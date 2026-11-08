@@ -47,30 +47,15 @@ A valid CSP-0.2 document contains:
 ```yaml
 passport:
   core: "OP.TR.DATA"
-  description: "Exact rational arithmetic solver for single-variable linear equations"
-  requirements:
-    reasoning_depth: 0.1
-    structure: 0.9
-    adaptability: 0.2
-  meta:
-    version: "0.2"
-    author: "DPCO Core Team"
-
-compatibility:
-  input:
-    - category: "arithmetic"
-      formats: ["json_coefficients"]
-  output:
-    - category: "arithmetic"
-      formats: ["json_rational_fraction"]
-
+  description: "Exact rational arithmetic solver"
+  # ... (other passport fields)
 extensions:
   dpco.execution/v1:
-    declared_role: "PRODUCTION"
+    declared_role: "UNCLASSIFIED" # Claimed by executor
     exact_arithmetic_declared: true
-    determinism_guarantee_declared: "DETERMINISTIC"
-    isolation_tier_declared: "BUILTIN_TRUSTED"
 ```
+
+*Note: `declared_role` in the passport is a claim by the executor. It does not grant `PRODUCTION` authority. Effective operational role is determined solely by DPCO policy engine and `AdmissionGrant` issuance.*
 
 ### Invalid Passport Example (Violates CORE Regex)
 ```yaml
