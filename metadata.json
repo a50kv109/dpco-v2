@@ -1,0 +1,6 @@
+{
+  "name": "DPCO Orchestrator & Manager",
+  "description": "Deterministic Processing & Cognitive Orchestration — experimental orchestrator-manager and evolving architecture workbench.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

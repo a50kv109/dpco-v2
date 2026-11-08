@@ -1,0 +1,34 @@
+# DPCO Project Status — Public Architecture Baseline 0.3
+
+## 1. Executive Status
+DPCO (Deterministic Processing & Cognitive Orchestration) is currently at **Public Architecture Baseline 0.3**. The core orchestration architecture, mathematical engines, verification subsystems, and evidence governance are fully implemented and verified in the codebase. The DEAS-1 external asynchronous contract and security specifications are formally designed, while multi-tool workflow DAG engines and transport adapters are proposed roadmap items.
+
+---
+
+## 2. Component Implementation Status Matrix
+
+| Component | Purpose | Status | Source Evidence / Location |
+| :--- | :--- | :--- | :--- |
+| **Exact Arithmetic** | Rational BigInt fraction calculation ($\mathbb{Q}$) | **IMPLEMENTED & TESTED** | `src/core/fraction.ts`, `src/core/executors.ts` |
+| **Numerical Executor** | IEEE 754 floating-point evaluation | **IMPLEMENTED & TESTED** | `src/core/executors.ts` |
+| **Linear System Solver** | Multi-equation scalar system resolution | **IMPLEMENTED & TESTED** | `src/core/executors.ts` |
+| **Geometry Executor** | 2D Euclidean point, line, and circle construction | **IMPLEMENTED & TESTED** | `src/core/geometry.ts` |
+| **Contradiction Gate** | Pre-dispatch consistency verification | **IMPLEMENTED & TESTED** | `src/core/contradiction.ts` |
+| **Deterministic Dispatcher** | Cost and lexical executor candidate selection | **IMPLEMENTED & TESTED** | `src/core/dispatcher.ts` |
+| **Independent Verifier** | Autonomous mathematical and geometric audit | **IMPLEMENTED & TESTED** | `src/core/verifier.ts` |
+| **Result Classifier** | Epistemic separation of Execution, Claim, and Verification | **IMPLEMENTED & TESTED** | `src/core/classifier.ts`, `src/core/models.ts` |
+| **Evidence Registry** | 5 orthogonal evidence tiers and record tracking | **IMPLEMENTED & TESTED** | `src/core/evidence.ts` |
+| **Admission Grants** | Fail-closed role management (`UNCLASSIFIED` default) | **IMPLEMENTED & TESTED** | `src/core/evidence.ts`, `src/core/registry.ts` |
+| **Isolation Wrapper** | Prototype sealing, JSON sanitization, timeout limits | **IMPLEMENTED & TESTED** | `src/core/isolation.ts` |
+| **Execution Ledger** | SHA-256 block hashing and chain integrity | **IMPLEMENTED & TESTED** | `src/core/ledger.ts` |
+| **DEAS-1 Async Contract** | Asynchronous external execution interface & protocol | **DESIGNED** | `docs/DEAS-1/RUNTIME_CONTRACT.md` |
+| **Artifact Security** | Sandbox URI validation, traversal defense, hash check | **DESIGNED** | `docs/DEAS-1/SECURITY_AND_ARTIFACTS.md` |
+| **PythonAdapter / CLI** | Subprocess external engine bridge | **DESIGNED** | `docs/DEAS-1/RUNTIME_CONTRACT.md` |
+| **Workflow DAG Engine** | Multi-tool pipeline execution graph | **PROPOSED** | Roadmap |
+
+---
+
+## 3. Test Suite Verification
+- **Total Tests Verified:** 54 Passing / 0 Failing across Core (19), CSP-0.2 (10), and Revision 4 Acceptance (25).
+- **Test Command:** `npx tsx scripts/run_all_tests.ts`
+- **TypeScript & Build:** `tsc --noEmit` and Vite production build pass cleanly with exit code 0.
