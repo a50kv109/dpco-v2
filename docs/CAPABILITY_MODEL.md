@@ -10,12 +10,12 @@ External executors declare their capabilities using structured descriptors:
 - **Constraints:** Determinism, exact arithmetic support, persistent session requirements, side-effect classifications (`NONE`, `READ_ONLY_IO`, `SANDBOX_IO`, `DESTRUCTIVE`).
 - **Precision:** Numerical tolerances ($\varepsilon$) and significant digit bounds.
 
-## 3. Qualification Tiers (Orthogonal Evidence Dimensions)
-1. **DECLARED:** Claimed in executor passport.
-2. **INSPECTED:** Static schema and interface audit.
-3. **TESTED:** Passed functional test matrix.
-4. **INSTANCE_VERIFIED:** Specific result independently checked by verifier.
-5. **DOMAIN_VERIFIED:** Formally proven or rigorously validated across domain.
+## 3. Qualification Tiers & Internal Mapping
+DPCO recognizes two levels of qualification terminology:
+1. **Evidence Registry / Architectural Tiers (`docs/CAPABILITY_MODEL.md`):** `DECLARED`, `INSPECTED`, `TESTED`, `INSTANCE_VERIFIED`, `DOMAIN_VERIFIED`.
+2. **Core Registry Types (`src/core/registry.ts`):** Internal runtime validation handles baseline capability registration and state checks. 
+
+*Mapping Note:* An `INSTANCE_VERIFIED` result confirms a specific execution output via independent verifier back-substitution, but does not grant blanket `DOMAIN_VERIFIED` status for all possible inputs across the domain.
 
 ## 4. Admission Control & R-Levels
 - **Fail-Closed Default:** Unvetted executors default to `UNCLASSIFIED` role and are blocked from production dispatch.

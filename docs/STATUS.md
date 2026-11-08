@@ -1,7 +1,7 @@
-# DPCO Project Status — Public Architecture Baseline 0.3
+# DPCO Project Status — Public Architecture Baseline 2.0
 
 ## 1. Executive Status
-DPCO (Deterministic Processing & Cognitive Orchestration) is currently at **Public Architecture Baseline 0.3**. The core orchestration architecture, mathematical engines, verification subsystems, and evidence governance are fully implemented and verified in the codebase. The DEAS-1 external asynchronous contract and security specifications are formally designed, while multi-tool workflow DAG engines and transport adapters are proposed roadmap items.
+DPCO (Deterministic Processing & Control Orchestrator) is currently at **Public Architecture Baseline 2.0**. The core orchestration architecture, exact arithmetic engines, verification subsystems, and evidence governance are fully implemented and verified in the codebase (54 passing tests). The DEAS-1 asynchronous runtime contract and security specifications are formally designed, while multi-tool workflow DAG engines and transport adapters are proposed roadmap items.
 
 ---
 
@@ -22,8 +22,8 @@ DPCO (Deterministic Processing & Cognitive Orchestration) is currently at **Publ
 | **Isolation Wrapper** | Prototype sealing, JSON sanitization, timeout limits | **IMPLEMENTED & TESTED** | `src/core/isolation.ts` |
 | **Execution Ledger** | SHA-256 block hashing and chain integrity | **IMPLEMENTED & TESTED** | `src/core/ledger.ts` |
 | **DEAS-1 Async Contract** | Asynchronous external execution interface & protocol | **DESIGNED** | `docs/DEAS-1/RUNTIME_CONTRACT.md` |
-| **Artifact Security** | Sandbox URI validation, traversal defense, hash check | **DESIGNED** | `docs/DEAS-1/SECURITY_AND_ARTIFACTS.md` |
-| **PythonAdapter / CLI** | Subprocess external engine bridge | **DESIGNED** | `docs/DEAS-1/RUNTIME_CONTRACT.md` |
+| **Artifact Security** | Sandbox URI validation, canonical path resolution, hash check | **DESIGNED** | `docs/DEAS-1/SECURITY_AND_ARTIFACTS.md` |
+| **PythonAdapter / CLI** | Subprocess external engine bridge | **DESIGNED** | `docs/DEAS-1/TRANSPORT_PROFILES.md` |
 | **Workflow DAG Engine** | Multi-tool pipeline execution graph | **PROPOSED** | Roadmap |
 
 ---
