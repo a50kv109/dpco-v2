@@ -7,31 +7,26 @@ DPCO evaluates trust per **Capability** and per **Execution Result**, never gran
 External executors declare their capabilities using structured descriptors:
 - **Identifier:** e.g., `arithmetic.linear.solve` or `geometry.2d.intersect`.
 - **Input/Output Schemas:** JSON Schema validation definitions.
-- **Constraints:** Determinism, exact arithmetic support, persistent session requirements, side-effect classifications (`NONE`, `READ_ONLY_IO`, `SANDBOX_IO`, `DESTRUCTIVE`).
-- **Precision:** Numerical tolerances ($\varepsilon$) and significant digit bounds.
+- **Constraints:** Determinism, exact arithmetic support, persistent session requirements, side-effect classifications.
 
-## 3. Qualification Tiers & Internal Mapping
-DPCO separates high-level architectural qualification from operational runtime registry types.
+## 3. Qualification & Evidence Layers
+DPCO separates evidence documentation from runtime classification into three distinct layers:
 
-### Evidence Maturity (Architectural Tiers)
-- `DECLARED`: Executor passport claim.
-- `INSPECTED`: Static analysis/schema audit.
-- `TESTED`: Functional test matrix pass.
-- `INSTANCE_VERIFIED`: Result confirmed via independent verifier.
-- `DOMAIN_VERIFIED`: Formally proven or rigorously validated across domain.
+### Layer A: Architectural Evidence Maturity
+*Conceptual maturity model.*
+- `DECLARED`, `INSPECTED`, `TESTED`, `INSTANCE_VERIFIED`, `DOMAIN_VERIFIED`.
 
-### Operational Registry Mapping (`src/core/registry.ts`)
-| Conceptual Tier | Runtime Enum / Type | Note |
-| :--- | :--- | :--- |
-| `DECLARED` | `REGISTRATION_PASSED` | Capability manifest valid. |
-| `TESTED` | `TEST_SUITE_PASSED` | Functional matrix pass. |
-| `INSTANCE_VERIFIED` | `VERIFIED` | Specific output audit success. |
-| `DOMAIN_VERIFIED` | `N/A` | Conceptual only; no runtime enum equivalence. |
+### Layer B: Runtime `QualificationTier` (`src/core/registry.ts`)
+*Current registry state classification.*
+- `DECLARED`, `TESTED`, `VERIFIED`, `VALIDATED`, `ATTESTED`.
 
-*Crucial Distinction:* `INSTANCE_VERIFIED` provides high confidence for a specific task output via independent verifier back-substitution, but it does **not** promote the executor to `DOMAIN_VERIFIED` status for all possible future inputs. Each capability must be qualified separately.
+### Layer C: `EvidenceType` (`src/core/evidence.ts`)
+*The kind of evidence record issued.*
+- `PASSPORT_DECLARED`, `TEST_SUITE_PASSED`, `FORMALLY_VERIFIED_INSTANCE`, `FORMALLY_VERIFIED_DOMAIN`, `EMPIRICALLY_VALIDATED`, `EXTERNALLY_ATTESTED`.
 
+*Distinction Note:* These layers are conceptually independent. An `INSTANCE_VERIFIED` result provides specific task confidence but does **not** promote the executor to `DOMAIN_VERIFIED` status for all possible future inputs. No automatic one-to-one mapping exists between these layers.
 
 ## 4. Admission Control & R-Levels
-- **Fail-Closed Default:** Unvetted executors default to `UNCLASSIFIED` role and are blocked from production dispatch.
+- **Fail-Closed Default:** Unvetted executors default to `UNCLASSIFIED` role.
 - **Roles:** `PRODUCTION`, `NEGATIVE_CONTROL`, `BENCHMARK_ORACLE`, `UNCLASSIFIED`.
 - **Risk Levels ($R0$–$R4$):** Mapped to task execution modes and approval gates.

@@ -1,13 +1,12 @@
 # DEAS-1 Runtime Contract Specification (v0.3.0)
 
 ## 1. Objectives & Asynchronous Execution Model
-The DEAS-1 (DPCO External Executor Adapter Standard v1) Runtime Contract defines the standard protocol for connecting external computational engines (Python/SymPy, CLI binaries, MCP servers) to DPCO Core.
+The DEAS-1 (DPCO External Executor Adapter Standard v1) Runtime Contract defines the standard protocol for connecting external computational engines to DPCO Core.
 
 ### Key Architectural Constraint:
-**Synchronous and asynchronous execution paths are strictly separated.** 
-- Built-in reference executors (`ExactExecutor`, `LinearSystemExecutor`) operate synchronously via `IExecutor`.
+**Synchronous and asynchronous execution paths are strictly separated.**
+- Built-in reference executors operate synchronously via `IExecutor`.
 - External external adapters operate asynchronously via `IDeasExecutor.executeTask()`.
-- DPCO Core provides an asynchronous execution coordinator for external tasks, preventing event loop blocking or artificial synchronous Promise unwrapping.
 
 ---
 
@@ -33,61 +32,7 @@ export type DeasErrorCode =
   | 'PERMISSION_DENIED'
   | 'INTERNAL_ADAPTER_ERROR';
 
-export interface CapabilityDescriptor {
-  id: string;
-  version: string;
-  inputSchema: Record<string, any>;
-  outputSchema: Record<string, any>;
-  constraints: {
-    deterministic: boolean;
-    exactArithmetic: boolean;
-    requiresPersistentSession: boolean;
-    sideEffects: 'NONE' | 'READ_ONLY_IO' | 'SANDBOX_IO' | 'DESTRUCTIVE';
-  };
-  precision?: {
-    tolerance?: number;
-    maxSignificantDigits?: number;
-  };
-  artifactFormats: string[];
-}
-
-export interface DeasArtifactReference {
-  artifact_id: string;
-  producer_executor_id: string;
-  execution_id: string;
-  name: string;
-  uri: string;
-  mime_type: string;
-  size_bytes: number;
-  max_allowed_size_bytes: number;
-  content_hash: string;
-  ownership: {
-    principal: string;
-    permissions: 'READ_ONLY' | 'READ_WRITE';
-  };
-}
-
-export interface DeasTaskRequest {
-  task_id: string;
-  operation: string;
-  params: Record<string, any>;
-  constraints?: {
-    timeout_ms?: number;
-    exact_arithmetic?: boolean;
-    required_rigor?: string;
-    max_memory_mb?: number;
-  };
-  artifacts_in?: DeasArtifactReference[];
-  session_id?: string;
-}
-
-export interface DeasNormalizedError {
-  code: DeasErrorCode;
-  message: string;
-  transport_error_code?: string | number;
-  raw_details?: string;
-  recoverable: boolean;
-}
+// ... (CapabilityDescriptor and DeasArtifactReference omitted for brevity in this contract summary)
 
 export interface DeasExecutionResponse {
   task_id: string;
@@ -99,7 +44,7 @@ export interface DeasExecutionResponse {
   provenance: {
     executor_id: string;
     system_id: string;
-    executed_at: string;
+    executed_at: string; // DPCO Runtime evaluates actual isolation tier
   };
 }
 
@@ -115,16 +60,25 @@ export interface IDeasExecutor {
 ---
 
 ## 3. Lifecycle & State Management
-External executor interaction involves three distinct state models:
+External executor interaction involves three distinct state models.
 
 ### 3.1 Executor States
-`UNINITIALIZED` $\to$ `HEALTHY` $\iff$ `BUSY` (processing active task) $\to$ `FAULTED` $\to$ `TERMINATED`.
+- `INITIALIZING`: Adapter initializing connection.
+- `READY`: Executor idle and healthy.
+- `BUSY`: Executor actively processing a task.
+- `DEGRADED`: Performance or health issues detected.
+- `FAULTED`: Terminal error state.
+- `TERMINATED`: Executor shut down.
+*Note: BUSY is a workload state, not a synonym for HEALTHY.*
 
 ### 3.2 Task States
-`QUEUED` $\to$ `STARTING` $\to$ `RUNNING` $\to$ (`COMPLETED` | `FAILED` | `TIMED_OUT` | `CANCELLED` | `FAULTED`).
-- **Terminal States:** `COMPLETED`, `FAILED`, `TIMED_OUT`, `CANCELLED`, `FAULTED` are final states.
-- **Cancellation:** `cancelTask()` may be called in `STARTING` or `RUNNING` states, transitioning Task to `CANCELLED`.
+`QUEUED` → `STARTING` → `RUNNING` → (`COMPLETED` | `FAILED` | `TIMED_OUT` | `CANCELLED` | `FAULTED`).
+- Terminal States: `COMPLETED`, `FAILED`, `TIMED_OUT`, `CANCELLED`, `FAULTED` are final states.
+- Cancellation: `cancelTask()` may be called in `STARTING` or `RUNNING` states, transitioning Task to `CANCELLED`.
 
 ### 3.3 Session States
-`SESSION_OPEN` $\to$ `SESSION_BUSY` $\to$ `SESSION_CLOSED` $\to$ `SESSION_EXPIRED`.
-- Persistence of session state is managed by the external executor, and session lifecycle is independent of individual Task requests.
+- `SESSION_OPEN` (Active)
+- `SESSION_BUSY` (Active)
+- `SESSION_CLOSED` (Terminal)
+- `SESSION_EXPIRED` (Terminal)
+*Note: Persistence of session state is managed by the external executor; session lifecycle is independent of individual Task requests.*
