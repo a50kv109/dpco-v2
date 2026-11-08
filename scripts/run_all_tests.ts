@@ -4,7 +4,7 @@ import { runCspTestSuite } from '../src/core/cspTestSuite';
 import { runRevision4TestSuite } from '../src/core/revision4TestSuite';
 
 console.log('================================================================');
-console.log('    DPCO TRIPLE TEST RUNNER: CORE (19) + CSP (10) + R4 (20)     ');
+console.log('    DPCO TRIPLE TEST RUNNER: CORE (19) + CSP (10) + R4 (25)     ');
 console.log('================================================================\n');
 
 const core = new DPCOCore();
@@ -35,8 +35,8 @@ for (const r of cspSuite.results) {
 }
 console.log(`\nCSP SUMMARY:  ${cspSuite.passCount} PASS / ${cspSuite.failCount} FAIL (${cspSuite.totalDurationMs}ms)\n`);
 
-// 3. Run DPCO v0.2.0 Revision 4 Architecture Acceptance Suite (20 Checks)
-console.log('--- 3. RUNNING REVISION 4 ACCEPTANCE MATRIX (20 CHECKS) ---');
+// 3. Run DPCO v0.2.0 Revision 4 Architecture Acceptance Suite (25 Checks)
+console.log('--- 3. RUNNING REVISION 4 ACCEPTANCE MATRIX (25 CHECKS) ---');
 const r4Suite = runRevision4TestSuite(core);
 let currentGroup = '';
 for (const r of r4Suite.results) {

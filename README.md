@@ -1,5 +1,5 @@
-# DPCO (Deterministic Processing & Cognitive Orchestration)
-**Public Architecture Baseline 0.3**  
+# DPCO (Deterministic Processing & Control Orchestrator)
+**Public Architecture Baseline 2.0**  
 *Specialized AI Agent Support Middleware for Mathematics and Geometry*
 
 ---
@@ -28,29 +28,17 @@ DPCO provides:
 
 ## 3. Architecture Overview
 
-```
-+─────────────────────────────────────────────────────────────────────────────+
-|                         AI AGENT (ChatGPT / Gemini)                         |
-|     (Formulates hypotheses, reasons about tasks, interprets results)        |
-+─────────────────────────────────────────────────────────────────────────────+
-                                       │
-                                       ▼ (Structured Task Request)
-+─────────────────────────────────────────────────────────────────────────────+
-|                        DPCO ORCHESTRATION MIDDLEWARE                        |
-|  - Task & Constraint Validation / Contradiction Gate                        |
-|  - Capability Registry & Deterministic Dispatcher                           |
-|  - Admission Control & Evidence Registry (Fail-Closed R-Levels)             |
-|  - Independent Verifier & Result Classifier                                 |
-|  - Tamper-Evident SHA-256 Execution Ledger                                  |
-+─────────────────────────────────────────────────────────────────────────────+
-                                       │
-                                       ▼ (DEAS-1 Async Contract)
-+─────────────────────────────────────────────────────────────────────────────+
-|                      EXTERNAL EXECUTOR ADAPTER LAYER                        |
-|  - Exact / Numerical / Linear Solvers                                       |
-|  - 2D Euclidean Geometry Engine                                             |
-|  - PythonAdapter / CLIAdapter (SymPy, AI Geometry Skill)                    |
-+─────────────────────────────────────────────────────────────────────────────+
+```mermaid
+graph TD
+    A[AI Agent / LLM] -->|Structured Task Request| B[DPCO Orchestration Core]
+    B --> C[Constraint Validator & Contradiction Gate]
+    C --> D[Deterministic Dispatcher]
+    D --> E[Capability Registry & Admission Control]
+    E -->|Approved Task| F[External Executor / DEAS-1 Adapter]
+    F --> G[Independent Verifier]
+    G --> H[Result Classifier & Evidence Registry]
+    H --> I[Tamper-Evident SHA-256 Ledger]
+    I -->|Verified Response & Provenance| A
 ```
 
 ---
@@ -63,10 +51,11 @@ DPCO provides:
 
 ## 5. Repository Structure
 - `docs/` — Architecture specifications, capability models, and DEAS-1 contracts.
-- `src/core/` — Core TypeScript orchestration engine, validators, verifiers, and test suites.
+- `core/`, `adapters/`, `verifiers/`, `tests/`, `examples/`, `schemas/` — Scaffolding and core orchestration modules.
+- `legacy/dpco-poc-v0.1/` — Preserved historical Python PoC version 0.1 source code and reports.
 - `scripts/` — Test execution runners.
 
 ---
 
-## 6. License Decision Required
-> **[NOTICE]** A formal project license (e.g., MIT, Apache 2.0) has not yet been selected by the repository owner. Until a license is explicitly added, default copyright restrictions apply.
+## 6. License
+This project is licensed under the terms of the [MIT License](LICENSE).
